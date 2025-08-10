@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FazAYou Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            position: relative;
+        }
+        
+        /* Video background with full blur */
+        #video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+            filter: blur(15px) brightness(0.7);
+            transform: scale(1.1);
+        }
+        
+        .profile-container {
+            text-align: center;
+            z-index: 1;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            max-width: 90%;
+            width: 380px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .profile-pic {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255,255,255,0.9);
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-pic:hover {
+            transform: scale(1.05);
+        }
+        
+        h1 {
+            margin: 5px 0;
+            font-size: 1.9rem;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            background: linear-gradient(to right, #fff, #ddd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        h2 {
+            font-size: 1.1rem;
+            font-weight: normal;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            letter-spacing: 0.5px;
+        }
+        
+        .audio-container {
+            margin: 10px 0 15px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        
+        audio {
+            width: 200px;
+            height: 36px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        audio:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px;
+        }
+        
+        audio::-webkit-media-controls-panel {
+            background: linear-gradient(to right, #333, #222);
+            border-radius: 20px;
+        }
+        
+        .social-buttons-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .social-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: fit-content;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            min-width: 130px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .social-btn:hover::before {
+            left: 100%;
+        }
+        
+        .social-btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        /* Social media colors */
+        .youtube { background-color: #FF0000; }
+        .instagram { background: linear-gradient(45deg, #405DE6, #833AB4, #C13584, #E1306C, #FD1D1D); }
+        .tiktok { background-color: #000000; }
+        .github { background-color: #333333; }
+        .telegram { background-color: #0088cc; }
+        .whatsapp { background-color: #25D366; }
+        
+        /* TikTok specific icon */
+        .tiktok i {
+            position: relative;
+        }
+        .tiktok i::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 10px;
+            height: 10px;
+            background:
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+        
+        @media (max-width: 480px) {
+            .profile-container {
+                padding: 25px 20px;
+                width: 95%;
+                max-width: 350px;
+            }
+            
+            .profile-pic {
+                width: 110px;
+                height: 110px;
+            }
+            
+            h1 {
+                font-size: 1.7rem;
+            }
+            
+            h2 {
+                font-size: 1rem;
+            }
+            
+            audio {
+                width: 180px;
+                height: 34px;
+            }
+            
+            .social-buttons {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                width: 100%;
+                max-width: 220px;
+            }
+            
+            .social-btn {
+                padding: 10px 15px;
+                min-width: 100%;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Blurred video background that will autoplay immediately -->
+    <video id="video-background" autoplay muted loop playsinline>
+        <source src="https://files.catbox.moe/i16b51.mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    
+    <div class="profile-container">
+        <img src="https://files.catbox.moe/spijno.jpg" alt="Profile" class="profile-pic">
+        <h1>FAZAYOU</h1>
+        <h2>TURBULETTYING</h2>
+        
+        <div class="audio-container">
+            <audio id="audioPlayer" controls>
+                <source src="https://files.catbox.moe/q4dccn.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    
+        <script>
+            // Force video to play immediately on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                const video = document.getElementById('video-background');
+                video.play().catch(e => {
+                    // Fallback if autoplay is blocked
+                    video.muted = true;
+                    video.play();
+                });
+                
+                // Auto-play audio with user interaction
+                const audio = document.getElementById('audioPlayer');
+                document.addEventListener('click', function() {
+                    audio.play().catch(e => console.log("Audio play prevented:", e));
+                }, { once: true });
+            });
+        </script>
+       
+        <div class="social-buttons-container">
+            <div class="social-buttons">
+                <a href="https://youtube.com/@faz4youu?si=NWSFbQ8TZE4FWClk" target="_blank" class="social-btn youtube">
+                    <i class="fab fa-youtube"></i> YOUTUBE
+                </a>
+                <a href="https://www.instagram.com/faz4you_squad?igsh=MTIxcTU3M3V5NjNpeg==" target="_blank" class="social-btn instagram">
+                    <i class="fab fa-instagram"></i> INSTAGRAM
+                </a>
+                <a href="https://www.tiktok.com/@faz4yousquad" target="_blank" class="social-btn tiktok">
+                    <i class="fab fa-tiktok"></i> TIKTOK
+                </a>
+                <a href="https://github.com/FAZ4YOU" target="_blank" class="social-btn github">
+                    <i class="fab fa-github"></i> GITHUB
+                </a>
+                <a href="https://t.me/FAZZ777FRos" target="_blank" class="social-btn telegram">
+                    <i class="fab fa-telegram"></i> TELEGRAM
+                </a>
+                <a href="#" class="social-btn whatsapp">
+                    <i class="fab fa-whatsapp"></i> WHATSAPP
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
